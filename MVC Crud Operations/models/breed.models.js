@@ -5,8 +5,8 @@ const breedSchema = new mongoose.Schema(
     {
         breedname : {type:"String",required:"true"},
         age : {type:"Number",required:"true"},
-        Origin : {type:"String",required:"true"},
-        price : {type:"String",required:"true"},
+        origin : {type:"String",required:"true"},
+        price : {type:"Number",required:"true"},
     },
     {
         timestamps: true,
@@ -14,6 +14,6 @@ const breedSchema = new mongoose.Schema(
     }
 )
 
-const Breed = mongoose.model('breed',breedSchema)
+const Breed = mongoose.model('breedschema',breedSchema)
 
 module.exports = Breed;
