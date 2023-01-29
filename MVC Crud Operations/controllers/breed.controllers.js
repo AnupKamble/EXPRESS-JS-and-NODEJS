@@ -7,10 +7,11 @@ const {Router}=require('express');
 const router = Router();
 
  
-router.get("/", (req,res)=> {
+router.get("/", async (req,res)=> {
 
     try {
-        return res.status(200).send("I love Pitbull")
+        const data = await Breed.find();
+        return res.status(200).send(data)
     }
     catch(err) {
 
@@ -30,6 +31,22 @@ router.post("/", async (req,res)=> {
         return res.status(500).send(err.message)
     }
 })
+
+ 
+router.patch("/:id", async (req,res)=> {
+
+    try {
+          const data = await Breed.findByIdAndUpdate(req.params.id,req.body)
+        return res.status(200).send(data)
+    }
+    catch(err) {
+
+        return res.status(500).send(err.message)
+    }
+})
+
+
+
 
 
 module.exports = router;
