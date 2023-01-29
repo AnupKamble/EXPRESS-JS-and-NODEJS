@@ -2,6 +2,7 @@
 const express = require('express');
 const Breed = require('../models/breed.models')
 const {Router}=require('express');
+const fsPromises = require('fs/promises')
 
 
 const router = Router();
@@ -35,7 +36,8 @@ router.post("/", async (req,res)=> {
  
 router.patch("/:id", async (req,res)=> {
 
-    try {
+    try { 
+          fsPromises.appendFile('records.txt',`The document with id:${req.params.id} has been updated\n`)
           const data = await Breed.findByIdAndUpdate(req.params.id,req.body,{new:true})
         return res.status(200).send(data)
     }
@@ -49,6 +51,7 @@ router.patch("/:id", async (req,res)=> {
 router.delete("/:id", async (req,res)=> {
 
     try {
+          fsPromises.appendFile('records.txt',`The document with id:${req.params.id} has been deleted\n`)
           const data = await Breed.findByIdAndDelete(req.params.id)
         return res.status(200).send(data)
     }
