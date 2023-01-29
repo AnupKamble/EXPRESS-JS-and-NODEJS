@@ -1,2 +1,5 @@
 The document with id:63d67b930213ce7e55e2974c has been updated
 The document with id:63d67b930213ce7e55e2974c has been deleted
+The document with id:63d67b930213ce7e55e2974c has been Deleted
+The document with id:63d68c50042575fcf271be93 has been Deleted
+The document with id:63d68c50042575fcf271be93 has been Updated
