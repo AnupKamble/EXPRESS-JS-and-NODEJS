@@ -36,7 +36,20 @@ router.post("/", async (req,res)=> {
 router.patch("/:id", async (req,res)=> {
 
     try {
-          const data = await Breed.findByIdAndUpdate(req.params.id,req.body)
+          const data = await Breed.findByIdAndUpdate(req.params.id,req.body,{new:true})
+        return res.status(200).send(data)
+    }
+    catch(err) {
+
+        return res.status(500).send(err.message)
+    }
+})
+
+ 
+router.delete("/:id", async (req,res)=> {
+
+    try {
+          const data = await Breed.findByIdAndDelete(req.params.id)
         return res.status(200).send(data)
     }
     catch(err) {
