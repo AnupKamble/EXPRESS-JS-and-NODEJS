@@ -14,6 +14,7 @@ app.listen( port, ()=> {
         connection();
        console.log(`server is running on port http://localhost:${port}`)
     }
+    
     catch(err) {
         console.log("unexpected error")
     }

@@ -3,6 +3,7 @@ const express = require('express');
 const Breed = require('../models/breed.models')
 const {Router}=require('express');
 const fsPromises = require('fs/promises')
+const validator = require('../middlewares/validator')
 
 
 const router = Router();
@@ -21,7 +22,7 @@ router.get("/", async (req,res)=> {
 })
 
  
-router.post("/", async (req,res)=> {
+router.post("/", validator, async (req,res)=> {
 
     try {
           const data = await Breed.create(req.body)
