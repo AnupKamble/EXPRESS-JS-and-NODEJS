@@ -1,6 +1,6 @@
 const fsPromises = require('fs/promises')
 
-const records =( req , res , next )=> {
+const records = async( req , res , next )=> {
   
     if (req.method === 'DELETE' ) {
 
