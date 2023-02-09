@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 
 const connection = require("./config/db");
 const { UserModel } = require("./models/user.models");
+const { instaRouter } = require("./controllers/Routes");
 
 const app = express();
 app.use(express.json());
@@ -60,6 +61,8 @@ app.post("/login", async (req, res) => {
     }
 });
 
+
+app.use('/instaposts', instaRouter)
 
 const port = process.argv[2] || 5050;
 app.listen(port, async () => {
