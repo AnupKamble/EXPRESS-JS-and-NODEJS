@@ -1,49 +1,67 @@
+const express = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 
-const express = require('express');
-const bcrypt = require('bcrypt')
-
-const connection = require('./config/db')
-const {UserModel} = require("./models/user.models")
+const connection = require("./config/db");
+const { UserModel } = require("./models/user.models");
 
 const app = express();
 app.use(express.json());
 
- 
-app.get("/", (req,res)=> {
-    
-    return res.status(200).send("data posted successfully");
-})
+app.get("/", async (req, res) => {
+    const data = await UserModel.find();
+    return res.status(200).send(data);
+});
 
-
-app.post("/signup", async(req,res)=> {
-
-    const {name,email,gender,password} = req.body;
+app.post("/signup", async (req, res) => {
+    const { name, email, gender, password } = req.body;
     try {
-         
-        bcrypt.hash(password, 4, async function(err,hash) {
-
-            const data = new UserModel({name,email,gender,password:hash})
-             await data.save()
-              res.send("sign up successfully")
-        })
-    }
-    catch(err) {
+        bcrypt.hash(password, 4, async function (err, hash) {
+            const data = new UserModel({ name, email, gender, password: hash });
+            await data.save();
+            res.send("sign up successfully");
+        });
+    } catch (err) {
         console.log(err);
-         res.status(500).send("Something went wrong! please try again")
+        res.status(500).send("Something went wrong! please try again");
     }
-})
+});
 
-app.post("/login",async (req,res)=> {
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
-})
+    try {
+        const user = await UserModel.find({ email }); // its find the particular user from DB;
+
+        if (user.length > 0) {
+            const hashed_password = user[0].password; // it gives particular user hashed Password;
+            //   console.log(hashed_password);
+
+            bcrypt.compare(password, hashed_password, function (err, result) {
+                if (result) {
+                    const token = jwt.sign({ course: "ptWeb-8A" }, "hush");
+
+                    res.send({ message: "LogIn in Successful", token: token });
+                } else {
+                    res.status(500).send("log in failed");
+                }
+            });
+        } else {
+            res.status(500).send("log in failed");
+        }
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send("Log in failed");
+    }
+});
+
 
 const port = process.argv[2] || 5050;
-app.listen(port, async()=> {
+app.listen(port, async () => {
     try {
         await connection();
-        console.log(`server is running on port http://localhost:${port}`)
+        console.log(`server is running on port http://localhost:${port}`);
+    } catch (err) {
+        console.log("facing issue to run server");
     }
-    catch(err) {
-        console.log('facing issue to run server'); 
-    }
-})
+});
