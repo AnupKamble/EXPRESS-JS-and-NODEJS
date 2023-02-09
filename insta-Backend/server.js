@@ -15,6 +15,11 @@ app.get("/", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
     const { name, email, gender, password } = req.body;
+       
+    const userPresent = await UserModel.findOne({email});
+     if (userPresent) {
+        return res.send("try log in ,Email already exists")
+     }
     try {
         bcrypt.hash(password, 4, async function (err, hash) {
             const data = new UserModel({ name, email, gender, password: hash });
@@ -29,7 +34,7 @@ app.post("/signup", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
-
+      
     try {
         const user = await UserModel.find({ email }); // its find the particular user from DB;
 
@@ -50,7 +55,7 @@ app.post("/login", async (req, res) => {
             res.status(500).send("log in failed");
         }
     } catch (err) {
-        console.log(err.message);
+        // console.log(err.message);
         res.status(500).send("Log in failed");
     }
 });
