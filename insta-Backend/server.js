@@ -3,7 +3,7 @@ const express = require('express');
 const bcrypt = require('bcrypt')
 
 const connection = require('./config/db')
-const UserModel = require("./models/user.models")
+const {UserModel} = require("./models/user.models")
 
 const app = express();
 app.use(express.json());

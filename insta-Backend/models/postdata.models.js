@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const postDataSchema = new mongoose.Schema (
     {
-       "title" : {type:"String",required:true},
-       "body" : {type:"String",required:true},
-       "device" : {type:"String",required:true}
+       title: String,
+       body: String,
+       device :String
     },
     {
         timestamps : true,
@@ -14,4 +14,6 @@ const postDataSchema = new mongoose.Schema (
 
 const postModel = mongoose.model("postData",postDataSchema);
 
-module.exports = postModel;
+module.exports = {
+    postModel
+};
