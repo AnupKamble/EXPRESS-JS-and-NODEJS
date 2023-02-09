@@ -33,6 +33,10 @@ app.post("/signup", async(req,res)=> {
     }
 })
 
+app.post("/login",async (req,res)=> {
+
+})
+
 const port = process.argv[2] || 5050;
 app.listen(port, async()=> {
     try {
