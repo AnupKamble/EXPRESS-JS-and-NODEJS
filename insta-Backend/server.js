@@ -5,14 +5,11 @@ const jwt = require("jsonwebtoken")
 const connection = require("./config/db");
 const { UserModel } = require("./models/user.models");
 const { instaRouter } = require("./controllers/Routes");
+const { authenticate } = require("./middlewares/Authentication");
 
 const app = express();
 app.use(express.json());
 
-// app.get("/", async (req, res) => {
-//     const data = await UserModel.find();
-//     return res.status(200).send(data);
-// });
 
 app.post("/signup", async (req, res) => {
     const { name, email, gender, password } = req.body;
@@ -62,6 +59,7 @@ app.post("/login", async (req, res) => {
 });
 
 
+app.use(authenticate);
 app.use('/instaposts', instaRouter)
 
 const port = process.argv[2] || 5050;
