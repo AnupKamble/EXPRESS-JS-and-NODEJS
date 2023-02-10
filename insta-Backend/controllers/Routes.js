@@ -18,6 +18,19 @@ instaRouter.get('/' , async (req,res)=> {
 })
 
 
+instaRouter.get('/' , async (req,res)=> {
+
+    try {
+        
+        res.send("WIP")
+
+    }catch(err) {
+
+        req.status(500).send({"msg":"unexpected error"})
+    }
+})
+
+
 module.exports = {
     instaRouter
 }
