@@ -49,15 +49,18 @@ instaRouter.patch('/update/:postId' , async (req,res)=> {
 })
 
 
-instaRouter.delete('/delete/id' , async (req,res)=> {
-
+instaRouter.delete('/delete/:deleteId' , async (req,res)=> {
+       
+    const deleteId = req.params.deleteId;
     try {
+
+        await postModel.findByIdAndDelete({_id : deleteId})
         
-        res.send("WIP")
+     return res.send("The post deleted succesfully")
 
     }catch(err) {
 
-        req.status(500).send({"msg":"unexpected error"})
+     return req.status(500).send({"msg":"unexpected error"})
     }
 })
 
