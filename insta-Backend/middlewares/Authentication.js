@@ -1,30 +1,24 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-
-const authenticate = (req , res , next) => {
-
+const authenticate = (req, res, next) => {
     const token = req.headers?.authorization?.split(" ")[1];
 
-    if ( token ) {
+    if (token) {
+        const decoded = jwt.verify(token, "secret");
 
-        const decoded = jwt.verify( token , 'hush');
-
-        if ( decoded) {
-
+        if (decoded) {
+            // console.log(decoded);   check the userID 
             const userID = decoded.userID;
             req.body.userID = userID;
             next();
+        } else {
+            res.send({ msg: "please login" });
         }
-        else {
-            res.send({"msg":"please login"})
-        }
-    } 
-    else {
-        res.send({"msg":"please login"})
+    } else {
+        res.send({ msg: "please login" });
     }
-
-}
+};
 
 module.exports = {
-    authenticate
-}
+    authenticate,
+};

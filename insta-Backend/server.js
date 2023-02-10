@@ -11,6 +11,12 @@ const app = express();
 app.use(express.json());
 
 
+
+app.get("/", (req, res) => {
+    res.send("Welcome")
+})
+
+
 app.post("/signup", async (req, res) => {
     const { name, email, gender, password } = req.body;
        
@@ -42,7 +48,7 @@ app.post("/login", async (req, res) => {
 
             bcrypt.compare(password, hashed_password, function (err, result) {
                 if (result) {
-                    const token = jwt.sign({ course: "ptWeb-8A" }, "hush");
+                    const token = jwt.sign({ "userID" : user[0]._id }, "secret");
 
                     res.send({ message: "LogIn in Successful", token: token });
                 } else {

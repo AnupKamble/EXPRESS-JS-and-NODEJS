@@ -1,66 +1,77 @@
 
 const express = require('express');
-const {postModel} = require('../models/postdata.models')
+const { postModel } = require('../models/postdata.models')
 
 const instaRouter = express.Router();
 
 
-instaRouter.get('/' , async (req,res)=> {
+instaRouter.get('/', async (req, res) => {
 
     try {
         const data = await postModel.find();
-    return res.send(data);
+        return res.send(data);
 
-    }catch(err) {
+    } catch (err) {
 
-    return req.status(500).send({"msg":"unexpected error"})
+        return req.status(500).send({ "msg": "unexpected error" })
     }
 })
 
 
-instaRouter.post('/create' , async (req,res)=> {
-      
+instaRouter.post('/create', async (req, res) => {
+
     const payload = req.body;
     try {
         const new_data = new postModel(payload);
-            await new_data.save();
-    return res.send({"msg" : "Data added succesfully"});
+        await new_data.save();
+        return res.send({ "msg": "Data added succesfully" });
 
-    }catch(err) {
+    } catch (err) {
 
-     return req.status(500).send({"msg":"unexpected error"})
+        return req.status(500).send({ "msg": "unexpected error" })
     }
 })
 
 
-instaRouter.patch('/update/:postId' , async (req,res)=> {
-    const payload = req.body;
-    const postId = req.params.postId;
+instaRouter.patch('/update/:postId', async (req, res) => {
+    
+    // const payload = req.body;
+   
+    // try { 
+        const postId = req.params.postId;
+        const userID = req.body.userID;
+        const story = await postModel.find({ _id:postId });
 
-    try {    
-        await postModel.findByIdAndUpdate({_id:postId},payload)
-          
-     return res.send({"msg":"post updated successfully"});
+        if ( userID !== story.userID) {
 
-    }catch(err) {
+            return res.send("not Authorised");
+        }
+        else {
 
-    return req.status(500).send({"msg":"unexpected error"})
-    }
+            await postModel.findByIdAndUpdate({ _id: postId }, payload)
+
+            return res.send({ "msg": "post updated successfully" });
+        }
+    // }
+    // catch (err) {
+
+    //     return req.status(500).send({ "msg": "unexpected error" })
+    // }
 })
 
 
-instaRouter.delete('/delete/:deleteId' , async (req,res)=> {
-       
+instaRouter.delete('/delete/:deleteId', async (req, res) => {
+
     const deleteId = req.params.deleteId;
     try {
 
-        await postModel.findByIdAndDelete({_id : deleteId})
-        
-     return res.send("The post deleted succesfully")
+        await postModel.findByIdAndDelete({ _id: deleteId })
 
-    }catch(err) {
+        return res.send("The post deleted succesfully")
 
-     return req.status(500).send({"msg":"unexpected error"})
+    } catch (err) {
+
+        return req.status(500).send({ "msg": "unexpected error" })
     }
 })
 
