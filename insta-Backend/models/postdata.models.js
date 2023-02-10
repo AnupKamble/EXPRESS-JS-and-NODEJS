@@ -4,7 +4,8 @@ const postDataSchema = new mongoose.Schema(
     {
         title: String,
         body: String,
-        device: String
+        device: String,
+        userID : String
     },
     {
         timestamps: true,
