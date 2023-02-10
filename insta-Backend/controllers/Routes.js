@@ -9,11 +9,11 @@ instaRouter.get('/' , async (req,res)=> {
 
     try {
         const data = await postModel.find();
-        res.send(data);
+    return res.send(data);
 
     }catch(err) {
 
-        req.status(500).send({"msg":"unexpected error"})
+    return req.status(500).send({"msg":"unexpected error"})
     }
 })
 
@@ -28,20 +28,23 @@ instaRouter.post('/create' , async (req,res)=> {
 
     }catch(err) {
 
-        req.status(500).send({"msg":"unexpected error"})
+     return req.status(500).send({"msg":"unexpected error"})
     }
 })
 
 
-instaRouter.patch('/update/id' , async (req,res)=> {
+instaRouter.patch('/update/:postId' , async (req,res)=> {
+    const payload = req.body;
+    const postId = req.params.postId;
 
-    try {
-        
-        res.send("WIP")
+    try {    
+        await postModel.findByIdAndUpdate({_id:postId},payload)
+          
+     return res.send({"msg":"post updated successfully"});
 
     }catch(err) {
 
-        req.status(500).send({"msg":"unexpected error"})
+    return req.status(500).send({"msg":"unexpected error"})
     }
 })
 
