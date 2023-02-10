@@ -35,23 +35,24 @@ instaRouter.post('/create', async (req, res) => {
 
 instaRouter.patch('/update/:postId', async (req, res) => {
     
-    // const payload = req.body;
+
    
     // try { 
-        const postId = req.params.postId;
         const userID = req.body.userID;
-        const story = await postModel.find({ _id:postId });
+        const postId = req.params.postId;
+        const payload = req.body;
+        // const story = await postModel.findOne({ _id:postId });
 
-        if ( userID !== story.userID) {
+        // if ( userID !== story.userID) {
 
-            return res.send("not Authorised");
-        }
-        else {
+        //      res.send("not Authorised");
+        // }
+        // else {
 
             await postModel.findByIdAndUpdate({ _id: postId }, payload)
 
-            return res.send({ "msg": "post updated successfully" });
-        }
+            res.send({ "msg": "post updated successfully" });
+        // }
     // }
     // catch (err) {
 
