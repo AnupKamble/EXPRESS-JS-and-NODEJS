@@ -9,10 +9,10 @@ const { instaRouter } = require("./controllers/Routes");
 const app = express();
 app.use(express.json());
 
-app.get("/", async (req, res) => {
-    const data = await UserModel.find();
-    return res.status(200).send(data);
-});
+// app.get("/", async (req, res) => {
+//     const data = await UserModel.find();
+//     return res.status(200).send(data);
+// });
 
 app.post("/signup", async (req, res) => {
     const { name, email, gender, password } = req.body;

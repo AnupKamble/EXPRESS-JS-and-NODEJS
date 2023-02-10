@@ -12,7 +12,7 @@ const postDataSchema = new mongoose.Schema (
     }
 )
 
-const postModel = mongoose.model("postData",postDataSchema);
+const postModel = mongoose.model("postdatas",postDataSchema);
 
 module.exports = {
     postModel
